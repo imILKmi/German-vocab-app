@@ -11,8 +11,10 @@ async function handleUrlNavigation() {
             showError(data.error);
         } else if (Array.isArray(data)) {
             showList(data);
-        } else if (Array.isArray(data) == false) {
+        } else if (Array.isArray(data) == false && wordQuery != "train") {
             showCard(data);
+        } else if (wordQuery == "train"){
+            showTrainer(data);
         }
     } catch (err) {
         showError("Server is offline!");
@@ -62,6 +64,10 @@ function showCard(word) {
     } else {
         row.classList.add('hidden');
     }
+}
+
+function showTrainer(wrod){
+    
 }
 
 function showError(msg) {

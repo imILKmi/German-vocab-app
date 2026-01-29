@@ -12,6 +12,11 @@ app.add_middleware(
 )
 #magic to run the api and shit end
 
+import random
+
+def SearchMeaningList(wordg):
+    for i in wordg:
+        return i
 class MakeWord:
     def __init__(self,wordde,wordbg,word_type,**extra_info):
         self.wordde = wordde
@@ -31,7 +36,7 @@ words = [
     MakeWord("Hund","Куче","noun",gender = "der"),
     MakeWord("Frau","Жена","noun",gender = "die"),
     MakeWord("haben","Имам","verb",special_conj = False),
-    MakeWord("Sendung","pratka","noun",gender = "die")
+    MakeWord("Sendung",["pratka","TV predavane"],"noun",gender = "die")
 ]
 
 
@@ -50,8 +55,13 @@ def get_words():
 def get_search(target:str):
     databox = []
     for i in words:
-        if target.lower() == i.wordde.lower() or target.lower() == i.wordbg.lower(): #for the word itself
+        if target.lower() == i.wordde.lower() or target.lower() == SearchMeaningList(i.wordbg): #for the word itself
             return i.to_dict()
         elif i.word_type.lower() == target.lower(): #for the type
             databox.append(i.to_dict())
+        elif target.lower() in i.extra_info.values():
+            databox.append(i.to_dict())
+        elif target.lower() == "train":
+            randword = random.choice(words)
+            return randword.to_dict()
     return databox
