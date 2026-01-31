@@ -17,6 +17,7 @@ import random
 def SearchMeaningList(wordg):
     for i in wordg:
         return i
+
 class MakeWord:
     def __init__(self,wordde,wordbg,word_type,**extra_info):
         self.wordde = wordde
