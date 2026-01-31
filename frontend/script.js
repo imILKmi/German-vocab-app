@@ -1,3 +1,4 @@
+let currentWord = null;
 async function handleUrlNavigation() {
     const urlParams = new URLSearchParams(window.location.search);
     const wordQuery = urlParams.get('word');
@@ -13,7 +14,8 @@ async function handleUrlNavigation() {
             showList(data);
         } else if (Array.isArray(data) == false && wordQuery != "train") {
             showCard(data);
-        } else if (wordQuery == "train"){
+        } else if (wordQuery == "train") {
+            currentWord = data;
             showTrainer(data);
         }
     } catch (err) {
@@ -35,7 +37,7 @@ function showList(words) {
             clone.querySelector('.bg-text').innerText = word.wordbg;
             list.appendChild(clone);
         });
-    }else{
+    } else {
         showError("Incorrect search! Maybe check spelling...")
     }
 }
@@ -66,8 +68,47 @@ function showCard(word) {
     }
 }
 
-function showTrainer(wrod){
-    
+function showTrainer(word) {
+    document.getElementById('view-title').innerText = "Train words"
+    document.getElementById('trainer-container').classList.remove('hidden');
+
+    document.getElementById('question-word-de').innerText = word.wordde;
+    document.getElementById('answer').value = "";
+    document.getElementById('feedback').innerText = "";
+    document.getElementById('answer').focus();
+}
+
+function TrainerButtonHandler() {
+    const button = document.getElementById('check-answer')
+    const feedback = document.getElementById('feedback');
+
+    if (button.innerText == "Check Answer") {
+        const userAnswer = document.getElementById('answer').value.trim();
+        if (Array.isArray(currentWord.wordbg)) {
+            for (let i = 0; i < currentWord.wordbg.length; i++) {
+                if (userAnswer.toLowerCase() === currentWord.wordbg[i].toLowerCase()) {
+                    feedback.innerText = "Correct!";
+                    feedback.style.backgroundColor = "green";
+                    button.innerText = "Next Word?";
+                    break;
+                } else {
+                    feedback.innerText = "Wrong!";
+                    feedback.style.backgroundColor = "red";
+                }
+            }
+        } else {
+            if (userAnswer.toLowerCase() === currentWord.wordbg.toLowerCase()) {
+                feedback.innerText = "Correct!";
+                feedback.style.backgroundColor = "green";
+                button.innerText = "Next Word?";
+            } else {
+                feedback.innerText = "Wrong!";
+                feedback.style.backgroundColor = "red";
+            }
+        }
+    } else {
+        location.reload();
+    }
 }
 
 function showError(msg) {

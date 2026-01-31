@@ -36,7 +36,7 @@ words = [
     MakeWord("Hund","Куче","noun",gender = "der"),
     MakeWord("Frau","Жена","noun",gender = "die"),
     MakeWord("haben","Имам","verb",special_conj = False),
-    MakeWord("Sendung",["pratka","TV predavane"],"noun",gender = "die")
+    MakeWord("Sendung",["Пратка","ТВ Предаване","Предаване","Теливизионно предаване"],"noun",gender = "die")
 ]
 
 
