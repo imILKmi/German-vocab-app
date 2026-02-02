@@ -5,7 +5,7 @@ This is a fastAPI-powered app that helps you learn the vocabulary and any specif
 1. To start the app you have to navigate to the folder where the python backend lives (backend) and type:
     python -m uvicorn main:app --reload.
 
-2. Open the HTML file in the "frontend" folder and search for something with either "?word" or "?word=XYZ" in the URL bar.
+2. Open the HTML file in the "frontend" folder and search for something with either "?word" or "?word=XYZ" in the URL bar or you can now use the "search for words" button and type in any of the supported URL searches just without the ?word=.
     the current supported searches are:
      1. "?word" (shows all of the words)
      2. "?word={any_word}" (shows you only 1 word and all of the info it has)
