@@ -1,4 +1,5 @@
 let currentWord = null;
+hideAll();
 async function handleUrlNavigation() {
     const urlParams = new URLSearchParams(window.location.search);
     const wordQuery = urlParams.get('word');
@@ -7,16 +8,20 @@ async function handleUrlNavigation() {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-
-        if (data.error) {
-            showError(data.error);
-        } else if (Array.isArray(data)) {
-            showList(data);
-        } else if (Array.isArray(data) == false && wordQuery != "train") {
-            showCard(data);
-        } else if (wordQuery == "train") {
-            currentWord = data;
-            showTrainer(data);
+        //hideAll();
+        if (document.getElementById('Home').classList.contains('hidden')) {
+            if (data.error) {
+                showError(data.error);
+            } else if (Array.isArray(data)) {
+                showList(data);
+            } else if (Array.isArray(data) == false && wordQuery != "train") {
+                showCard(data);
+            } else if (wordQuery == "train") {
+                currentWord = data;
+                showTrainer(data);
+            }
+        }else{
+            console.log("alooooo")
         }
     } catch (err) {
         showError("Server is offline!");
@@ -118,7 +123,8 @@ function TrainerButtonHandler() {
             }
         }
     } else {
-        location.reload();
+        button.innerText = "Check Answer";
+        handleUrlNavigation();
     }
 }
 
@@ -138,11 +144,32 @@ function Searchfrombutton() {
     }
 }
 
+function HandleHomeNav(where) {
+    if (where.toLowerCase() === "train") {
+        window.history.pushState({}, '', '?word=train');
+        hideAll();
+        document.getElementById('trainer-container').classList.remove('hidden');
+        document.getElementById('Home').classList.add('hidden');
+        handleUrlNavigation();
+    } else if (where.toLowerCase() === "browse") {
+        window.history.pushState({}, '', window.location.pathname);
+        hideAll();
+        document.getElementById('word-list').classList.remove('hidden');
+        document.getElementById('Home').classList.add('hidden');
+    }
+    handleUrlNavigation();
+}
+
+function hideAll() {
+    document.getElementById('word-list').classList.add('hidden');
+    document.getElementById('card-container').classList.add('hidden');
+    document.getElementById('trainer-container').classList.add('hidden');
+}
+
 function showError(msg) {
     const err = document.getElementById('error-msg');
     err.innerText = msg;
     err.classList.remove('hidden');
 }
 
-window.onpopstate = () => handleUrlNavigation();
 window.onload = handleUrlNavigation;
