@@ -1,27 +1,31 @@
 let currentWord = null;
-hideAll();
+let curList = `?word`;
+
+document.getElementById('Home').classList.remove('hidden');
 async function handleUrlNavigation() {
     const urlParams = new URLSearchParams(window.location.search);
     const wordQuery = urlParams.get('word');
     const apiUrl = "http://127.0.0.1:8000/word" + (wordQuery ? "/" + wordQuery : "");
-
+    hideAll();
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        //hideAll();
         if (document.getElementById('Home').classList.contains('hidden')) {
             if (data.error) {
                 showError(data.error);
             } else if (Array.isArray(data)) {
+                if (wordQuery != null) {
+                    curList = `?word=${wordQuery}`;
+                } else {
+                    curList = `?word`;
+                }
                 showList(data);
-            } else if (Array.isArray(data) == false && wordQuery != "train") {
+            } else if (Array.isArray(data) == false && wordQuery != "train" && typeof data !== 'string') {
                 showCard(data);
             } else if (wordQuery == "train") {
                 currentWord = data;
                 showTrainer(data);
             }
-        }else{
-            console.log("alooooo")
         }
     } catch (err) {
         showError("Server is offline!");
@@ -30,36 +34,27 @@ async function handleUrlNavigation() {
 
 function showList(words) {
     if (words[0] != undefined) {
-        const list = document.getElementById('word-list');
-        const template = document.getElementById('list-item-template');
-        list.innerHTML = "";
-        document.getElementById('view-title').innerText = "All Words";
-        list.classList.remove('hidden');
-
-        words.forEach(word => {
-            const clone = template.content.cloneNode(true);
-            clone.querySelector('.de-text').innerText = word.wordde;
-            clone.querySelector('.bg-text').innerText = word.wordbg;
-
-            const LI = clone.querySelector('li')
-            LI.style.cursor = "pointer";
-            LI.onclick = () => {
-                if (new URLSearchParams(window.location.search).get('word') != null) {
-                    document.getElementById('card-back').setAttribute('href', `?word=${new URLSearchParams(window.location.search).get('word')}`);
-                }
-                list.classList.add('hidden');
-                window.history.pushState({}, '', `?word=${word.wordde}`);
+        document.getElementById('list-container').innerHTML = '';
+        document.getElementById('word-list').classList.remove('hidden');
+        window.history.pushState({}, '', curList);
+        for (let i = 0; i < words.length; i++) {
+            const clone = document.getElementById('list-item-template').content.cloneNode(true);
+            clone.querySelector('.de-text').innerText = words[i].wordde;
+            clone.querySelector('.bg-text').innerText = words[i].wordbg;
+            const listShort = clone.querySelector('li');
+            listShort.onclick = function () {
+                document.getElementById('word-list').classList.add('hidden');
+                window.history.pushState({}, '', `?word=${words[i].wordde}`);
                 handleUrlNavigation();
             }
-            list.appendChild(clone);
-        });
+            document.getElementById('list-container').appendChild(clone);
+        }
     } else {
-        showError("Incorrect search! Maybe check spelling...")
+        showError('FastAPI returned an empty array. Please god be easy to solve this!');
     }
 }
 
 function showCard(word) {
-    document.getElementById('view-title').innerText = "Word Details";
     document.getElementById('card-container').classList.remove('hidden');
     // Pulnim htmla s JSONa ot fastapi
     document.getElementById('card-de').innerText = word.wordde;
@@ -85,7 +80,6 @@ function showCard(word) {
 }
 
 function showTrainer(word) {
-    document.getElementById('view-title').innerText = "Train words"
     document.getElementById('trainer-container').classList.remove('hidden');
 
     document.getElementById('question-word-de').innerText = word.wordde;
@@ -128,36 +122,19 @@ function TrainerButtonHandler() {
     }
 }
 
-function Searchfrombutton() {
-    const userChoice = prompt("What do you want to search for?");
-    const Choicecleen = userChoice.trim().toLowerCase;
-    if (userChoice !== null) {
-        if (Choicecleen !== "") {
-            document.getElementById('word-list').classList.add('hidden');
-            document.getElementById('card-container').classList.add('hidden');
-            document.getElementById('trainer-container').classList.add('hidden');
-            window.history.pushState({}, '', `?word=${userChoice.toLowerCase()}`);
-            handleUrlNavigation();
-        }
-    } else {
-        return;
-    }
-}
-
 function HandleHomeNav(where) {
-    if (where.toLowerCase() === "train") {
-        window.history.pushState({}, '', '?word=train');
-        hideAll();
-        document.getElementById('trainer-container').classList.remove('hidden');
-        document.getElementById('Home').classList.add('hidden');
+    if (window.location.search === '') {
+        const home = document.getElementById('Home');
+        if (where.toLowerCase() === "train") {
+            window.history.pushState({}, '', '?word=train');
+            home.classList.add('hidden');
+
+        } else if (where.toLowerCase() === "browse") {
+            window.history.pushState({}, '', window.location.pathname);
+            home.classList.add('hidden');
+        }
         handleUrlNavigation();
-    } else if (where.toLowerCase() === "browse") {
-        window.history.pushState({}, '', window.location.pathname);
-        hideAll();
-        document.getElementById('word-list').classList.remove('hidden');
-        document.getElementById('Home').classList.add('hidden');
     }
-    handleUrlNavigation();
 }
 
 function hideAll() {
@@ -166,10 +143,38 @@ function hideAll() {
     document.getElementById('trainer-container').classList.add('hidden');
 }
 
+function goHome() {
+    window.history.pushState({}, '', window.location.pathname);
+    document.getElementById('Home').classList.remove('hidden');
+    handleUrlNavigation();
+}
+
+function goListBack() {
+    window.history.pushState({}, '', `?word=${curList}`);
+    handleUrlNavigation();
+}
+
+function buttonSearch() {
+    const userChoice = prompt("What do you want to search for?");
+    const Choicecleen = userChoice.trim().toLowerCase;
+    if (userChoice !== null) {
+        if (Choicecleen !== "") {
+            window.history.pushState({}, '', `?word=${userChoice.toLowerCase()}`);
+            document.getElementById('Home').classList.add('hidden');
+            handleUrlNavigation();
+        }
+    } else {
+        return;
+    }
+}
+
 function showError(msg) {
     const err = document.getElementById('error-msg');
     err.innerText = msg;
     err.classList.remove('hidden');
 }
 
-window.onload = handleUrlNavigation;
+window.onload = () => {
+    window.history.pushState({}, '', window.location.pathname);
+    handleUrlNavigation();
+}

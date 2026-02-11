@@ -1,6 +1,10 @@
 #magic to run the api and shit start
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+import random
+import os
 
 app = FastAPI()
 
@@ -12,7 +16,9 @@ app.add_middleware(
 )
 #magic to run the api and shit end
 
-import random
+#MainFileDIR = os.path.dirname(os.path.abspath(__file__))
+#FrontendDIR = os.path.join(MainFileDIR, '..', 'frontend')
+
 
 def SearchMeaningList(wordg):
     for i in wordg:
@@ -40,11 +46,6 @@ words = [
     MakeWord("Sendung",["Пратка","ТВ Предаване","Предаване","Теливизионно предаване"],"noun",gender = "die")
 ]
 
-
-@app.get("/")
-def hello():
-    return {"message": "Welcome to the german learning app Pich. Still in development but hey you can test it right?"}
-
 @app.get("/word")
 def get_words():
     databox = []
@@ -66,3 +67,9 @@ def get_search(target:str):
             randword = random.choice(words)
             return randword.to_dict()
     return databox
+
+@app.get("/")
+def hello():
+    return {"message": "Welcome to the german learning app Pich. Still in development but hey you can test it right?"}
+    #return FileResponse(os.path.join(FrontendDIR, "index.html"))
+#app.mount("/", StaticFiles(directory=FrontendDIR), name="frontend")
