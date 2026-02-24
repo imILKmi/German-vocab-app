@@ -34,6 +34,7 @@ async function handleUrlNavigation() {
 
 function showList(words) {
     if (words[0] != undefined) {
+        document.getElementById('bar').classList.remove('hidden');
         document.getElementById('list-container').innerHTML = '';
         document.getElementById('word-list').classList.remove('hidden');
         window.history.pushState({}, '', curList);
@@ -141,6 +142,8 @@ function hideAll() {
     document.getElementById('word-list').classList.add('hidden');
     document.getElementById('card-container').classList.add('hidden');
     document.getElementById('trainer-container').classList.add('hidden');
+    document.getElementById('bar').classList.add('hidden');
+    document.getElementById('add-word').classList.add('hidden');
 }
 
 function goHome() {
@@ -168,6 +171,29 @@ function buttonSearch() {
     }
 }
 
+function show(){
+    window.history.pushState({},'',`?word=add`);
+    hideAll();
+    document.getElementById('add-word').classList.remove('hidden');
+}
+
+async function SaveWord() {
+    const wordde = document.getElementById('new-de').value;
+    const wordbg = document.getElementById('new-bg').value.split(',').map(w => w.trim());;
+    const word_type = document.getElementById('new-type').value;
+    const extra = document.getElementById('new-extra-info').value;
+    const extra_info = {};
+    if(extra.includes(':')){
+        const [key,val] = extra.split(':');
+        extra_info[key.trim()] = val.trim();
+    }
+
+    const payload = {wordde,wordbg,word_type,extra_info};
+    const response = await fetch('http://127.0.0.1:8000/add-word', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify(payload)});
+    const result = await response.json();
+    alert(result.message);
+}
+
 function showError(msg) {
     const err = document.getElementById('error-msg');
     err.innerText = msg;
@@ -178,3 +204,4 @@ window.onload = () => {
     window.history.pushState({}, '', window.location.pathname);
     handleUrlNavigation();
 }
+///   sprechen   говоря   verb
