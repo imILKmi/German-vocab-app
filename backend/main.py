@@ -53,7 +53,13 @@ words = [
     MakeWord("Hund","Куче","noun",gender = "der"),
     MakeWord("Frau","Жена","noun",gender = "die"),
     MakeWord("haben","Имам","verb",special_conj = False),
-    MakeWord("Sendung",["Пратка","ТВ Предаване","Предаване","Теливизионно предаване"],"noun",gender = "die")
+    MakeWord("Sendung",["Пратка","ТВ Предаване","Предаване","Теливизионно предаване"],"noun",gender = "die"),
+    MakeWord('groß','Голям','adjective'),
+    MakeWord('ich','Аз','pronoun',parent_word = 'sein'),
+    MakeWord('in',['в','във'],'preposition'),
+    MakeWord('heute','днес','adverb'),
+    MakeWord('weil','защото','conjugation',special_property = 'verbs at the end fo the sentance'),
+    MakeWord('eins',['едно','1'], 'numeral')
 ]
 
 @app.post('/add-word')
@@ -86,6 +92,6 @@ def get_search(target:str):
 
 @app.get("/")
 def hello():
-    #return {"message": "Welcome to the german learning app Pich. Still in development but hey you can test it right?"}
-    return FileResponse(os.path.join(FrontendDIR, "index.html"))
+    return {"message": "Welcome to the german learning app Pich. Still in development but hey you can test it right?"}
+    #return FileResponse(os.path.join(FrontendDIR, "index.html"))
 app.mount("/", StaticFiles(directory=FrontendDIR), name="frontend")

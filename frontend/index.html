@@ -6,8 +6,8 @@
     <title>German Learning</title>
     <link rel="stylesheet" href="styles.css">
     <header id="bar" class="top-bar" class="hidden">
-        <button onclick="buttonSearch()">Search for words</button>
-        <button onclick="show()">Add Word</button>
+
+
     </header>
 </head>
 
@@ -15,8 +15,21 @@
     <div id="output">
 
         <div id="word-list" class="hidden">
-            <button>Nouns</button>
-            <button>Words</button>
+            <div>
+                <button onclick="buttonSearch()">Search for words</button>
+                <button onclick="quickSearch('')">All Words</button>
+                <button onclick="quickSearch('noun')">Nouns</button>
+                <button onclick="quickSearch('verb')">Verbs</button>
+                <button onclick="quickSearch('adjective')">Adjectives</button>
+                <!--<button onclick="quickSearch('article')">Articles</button>-->
+                <button onclick="quickSearch('pronoun')">Pronouns</button>
+                <button onclick="quickSearch('preposition')">Prepositions</button>
+                <button onclick="quickSearch('adverb')">Adverbs</button>
+                <button onclick="quickSearch('conjugation')">Conjugations</button>
+                <!--<button onclick="quickSearch('interjection')">Interjections</button>-->
+                <button onclick="quickSearch('numeral')">Numerals</button>
+                <button onclick="show()">Add Word</button>
+            </div>
             <ul id="list-container"></ul>
             <a href="javascript:void(0)" onclick="goHome(event)"
                 style="display:inline-block; margin-bottom:15px; text-decoration:none; color:#4a90e2; font-weight:bold;">
@@ -69,6 +82,8 @@
             <input type="text" id="new-type" placeholder="Type (noun,verb...)">
             <input type="text" id="new-extra-info" placeholder="Extra info (eg. gender)">
             <button onclick="SaveWord()">Save</button>
+            <p></p>
+            <a href="javascript:void(0)" onclick="goListBack()"> ← Back to the List</a>
         </div>
 
         <p id="error-msg" style="color:red" class="hidden"></p>

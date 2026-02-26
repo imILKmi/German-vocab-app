@@ -1,5 +1,5 @@
 let currentWord = null;
-let curList = `?word`;
+let curList = ``;
 
 document.getElementById('Home').classList.remove('hidden');
 async function handleUrlNavigation() {
@@ -153,7 +153,7 @@ function goHome() {
 }
 
 function goListBack() {
-    window.history.pushState({}, '', `?word=${curList}`);
+    window.history.pushState({}, '', curList);
     handleUrlNavigation();
 }
 
@@ -194,6 +194,11 @@ async function SaveWord() {
     alert(result.message);
 }
 
+function quickSearch(type){
+    window.history.pushState({},'',`?word=${type.toLowerCase()}`);
+    handleUrlNavigation();
+}
+
 function showError(msg) {
     const err = document.getElementById('error-msg');
     err.innerText = msg;
@@ -204,4 +209,3 @@ window.onload = () => {
     window.history.pushState({}, '', window.location.pathname);
     handleUrlNavigation();
 }
-///   sprechen   говоря   verb
