@@ -1,7 +1,10 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 40px;
-    background: #f0f2f5;
+    background: #121212; /* Deep charcoal */
+    color: #e0e0e0;      /* Soft white */
+    margin: 0;
+    transition: background 0.3s ease;
 }
 
 .hidden {
@@ -9,114 +12,199 @@ body {
 }
 
 .card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    border-left: 8px solid blue;
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 16px;
+    border-left: 8px solid #4a90e2;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+#list-container {
+    padding: 0;
 }
 
 li {
-    background: white;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
+    background: #252525;
+    margin-bottom: 12px;
+    padding: 18px;
+    border-radius: 10px;
     list-style: none;
-}
-
-.extra-section {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-}
-
-.long-text {
-    white-space: pre-wrap;
-    line-height: 1.6;
-    color: #444;
-    word-wrap: break-word;
+    border: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 li:hover {
-    background-color: #eef;
-    color: blue;
-    border-radius: 8px;
-    transform: scale(1.01);
-    transition: 0.2s;
+    background-color: #2d2d2d;
+    border-color: #4a90e2;
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
 }
 
+.de-text {
+    color: #4a90e2;
+    font-size: 1.1rem;
+}
+
+.bg-text {
+    color: #aaa;
+}
+
+/* --- DECORATED BUTTONS (The Category Bar) --- */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    border: 1px solid #333;
+}
+
+.category-btn {
+    background: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.category-btn:hover {
+    background: #4a90e2;
+    color: white;
+    border-color: #4a90e2;
+    transform: scale(1.05);
+}
+
+/* Special "Action" Buttons */
+.category-btn.add-btn {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border: none;
+    color: white;
+}
+
+.category-btn.add-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* --- HOME SCREEN --- */
 #Home {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 70vh;
     text-align: center;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #Home h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    letter-spacing: -1px;
-}
-
-.button-group {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
+    font-size: 3rem;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 #Home button {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 12px;
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #Home button:first-of-type {
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     color: white;
+    border: none;
+    margin-right: 15px;
 }
 
 #Home button:last-of-type {
-    background-color: #ffffff;
+    background-color: transparent;
     color: #4a90e2;
     border: 2px solid #4a90e2;
 }
 
 #Home button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-#Home button:active {
-    transform: translateY(0);
-}
-
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
+input[type="text"] {
+    background: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 15px;
+    border-radius: 10px;
     width: 100%;
-    box-sizing: border-box;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    outline: none;
 }
 
-#card-back {
-    display: inline-block;
-    margin-bottom: 15px;
-    text-decoration: none;
-    color: #4a90e2;
+input[type="text"]:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+}
+
+.extra-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+}
+
+.long-text {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    color: #bbb;
+}
+
+#feedback {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
     font-weight: bold;
+    text-align: center;
+}
+
+#word-list button {
+ background-color: transparent;
+    color: #4a90e2;
+    border: 2px solid #4a90e2;
+     padding: 18px 40px;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#word-list button:hover {
+     transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+#check-answer {
+ background-color: transparent;
+    color: #4a90e2;
+    border: 2px solid #4a90e2;
+     padding: 18px 40px;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#check-answer {
+     transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }

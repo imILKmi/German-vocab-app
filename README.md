@@ -1,16 +1,10 @@
-# German Learning full-stack app. Made for German to Bulgarian (no english translations yet)
+# German Learning full-stack app. Made for German to Bulgarian (no english translations yet. Could add other languages in the future, don't expect it soon though).
 
 This is a fastAPI-powered app that helps you learn the vocabulary and any specific properties of words (like forcing Dativ or Akkusativ and anything else).
 
 1. To start the app you have to navigate to the folder where the python backend lives (backend) and type:
     python -m uvicorn main:app --reload.
 
-2. Open the HTML file in the "frontend" folder and search for something with either "?word" or "?word=XYZ" in the URL bar or you can now use the "search for words" button and type in any of the supported URL searches just without the ?word=.
-    the current supported searches are:
-     1. "?word" (shows all of the words)
-     2. "?word={any_word}" (shows you only 1 word and all of the info it has)
-     3. "?word={any_word_type}" (shows you all of the words of that type like all nouns)
-     4. "?word={any_extra_info_of_a_word}" (shows you all words with that extra info in them like all words with a specific gender)
-     5. "?word=train" (Shows the training mode)
+2. You can search through words now! You can temporarily add your own words (permanent word adding in progress) and you can search through the included words via the buttons or the 'search for words' button. You can't search via the url bar anymore because when you reload the page it clears the parameters and it's left with the pathname only.
      
-3. Play around and maybe learn some german so you can go to Frankfurt and become a donerkebab guy with a thick moustache!
+3. Play around and maybe learn some german so you can go to Frankfurt and become a donerkebab guy with a thick moustache! (probably better than programming tbh)
